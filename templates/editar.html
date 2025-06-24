@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto</title>
+    <!-- Inclui Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Define a fonte Inter para uma aparência moderna -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6; /* Cor de fundo suave */
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Editar Produto</h1>
+
+        <!-- Formulário para Editar Produto -->
+        <form action="{{ url_for('atualizar_produto', id=produto.id) }}" method="POST" class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col">
+                <label for="nome" class="mb-1 text-gray-600 font-medium">Nome:</label>
+                <input type="text" id="nome" name="nome" value="{{ produto.nome }}" required class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+            <div class="flex flex-col">
+                <label for="descricao" class="mb-1 text-gray-600 font-medium">Descrição:</label>
+                <textarea id="descricao" name="descricao" rows="4" required class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">{{ produto.descricao }}</textarea>
+            </div>
+            <div class="flex flex-col">
+                <label for="preco" class="mb-1 text-gray-600 font-medium">Preço:</label>
+                <input type="number" id="preco" name="preco" step="0.01" value="{{ '%.2f'|format(produto.preco) }}" required class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+            <div class="flex flex-col">
+                <label for="estoque" class="mb-1 text-gray-600 font-medium">Estoque:</label>
+                <input type="number" id="estoque" name="estoque" value="{{ produto.estoque }}" required class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+            <div class="flex flex-col">
+                <label for="categoria_id" class="mb-1 text-gray-600 font-medium">Categoria:</label>
+                <select id="categoria_id" name="categoria_id" class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if categoria.id == produto.categoria_id %}selected{% endif %}>
+                            {{ categoria.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="flex justify-between mt-6">
+                <button type="submit" class="bg-green-600 text-white p-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out font-semibold shadow-md flex-1 mr-2">Atualizar Produto</button>
+                <a href="{{ url_for('listar_produtos') }}" class="bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600 transition duration-300 ease-in-out font-semibold shadow-md flex-1 ml-2 text-center">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
